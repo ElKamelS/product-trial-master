@@ -35,6 +35,17 @@ namespace product_trial_back
             services.AddScoped<IRepository<Products>, Repository<Products>>();
 
             services.AddTransient<IProductService, ProductService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", policy =>
+                {
+                    policy.AllowAnyOrigin()       
+                          .AllowAnyMethod()      
+                          .AllowAnyHeader();      
+                });
+            });
+
             services.AddControllers();
         }
 
@@ -47,6 +58,8 @@ namespace product_trial_back
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAllOrigins");
 
             app.UseRouting();
 
